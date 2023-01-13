@@ -16,6 +16,7 @@ int CALLBACK wWinMain(
 	while ((result = GetMessageW(&msg, nullptr, 0, 0)) > 0) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
+		
 	}
 
 	

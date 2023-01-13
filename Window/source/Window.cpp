@@ -1,12 +1,10 @@
 #pragma once
 
 // framework includes
-#include "framework.h"
 #include "Window.h"
 
 // Singleton of WindowClass inside Window
 Window::WindowClass Window::WindowClass::wndClass;
-
 
 
 Window::WindowClass::WindowClass() noexcept : hInstance( GetModuleHandle(nullptr))
@@ -33,13 +31,9 @@ Window::WindowClass::~WindowClass() {
     UnregisterClass(GetName(), GetInstance());
 }
 
-
-
-
 HINSTANCE Window::WindowClass::GetInstance() noexcept {
     return wndClass.hInstance;
 }
-
 
 LPCWSTR Window::WindowClass::GetName() noexcept {
     return windowClassName;
@@ -116,6 +110,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    // Paint case
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
@@ -126,10 +121,14 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         EndPaint(hWnd, &ps);
     }
     break;
+
+    // Destroy case
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
         break;
+
+    // Keyboard cases
     case WM_KEYDOWN:
         switch (wParam)
         {
@@ -138,21 +137,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
         case VK_SHIFT:
             KEYBOARD_DATA.SHIFT_DOWN = true;
-            break;
-
-        case 'T':
-            // Switches fullscreen when Ctrl+T is pressed
-            if (KEYBOARD_DATA.CTRL_DOWN) {
-                static bool isFullscreen = false;
-                if (!isFullscreen) {
-                    SetWindowText(hWnd, L"T");
-                    isFullscreen = true;
-                }
-                else {
-                    SetWindowText(hWnd, L"G");
-                    isFullscreen = false;
-                }
-            }
             break;
         default:
             break;
@@ -170,6 +154,33 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         default:
             break;
         }
+
+    // Mouse cases
+    case WM_MOUSEMOVE:
+        mouse.whenMouseMove( MAKEPOINTS ( lParam ) );
+        break;
+    case WM_LBUTTONDOWN:
+        mouse.whenLeftDown();
+        break;
+    case WM_LBUTTONUP:
+        mouse.whenLeftUp();
+        break;
+    case WM_RBUTTONDOWN:
+        mouse.whenRightDown();
+        break;
+    case WM_RBUTTONUP:
+        mouse.whenRightUp();
+        break;
+    case WM_MBUTTONDOWN:
+        mouse.whenMiddleDown();
+        break;
+    case WM_MBUTTONUP:
+        mouse.whenMiddleUp();
+        break;
+    case WM_MOUSEWHEEL:
+        mouse.whenMiddleScroll(GET_WHEEL_DELTA_WPARAM(wParam));
+        break;
+    // Overall def
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

@@ -2,6 +2,7 @@
 
 #include "framework.h"
 #include "resource.h"
+#include "Mouse.h"
 
 // Window class to manage the window
 class Window {
@@ -47,7 +48,6 @@ public:
 	// returns hWnd
 	HWND GetHandle() noexcept;
 
-	UINT8 GetWindowCount() noexcept;
 
 private:
 
@@ -62,13 +62,14 @@ private:
 	// Window method to handle API messages after initialization
 	LRESULT HandleMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) noexcept;
 	
-	// Counts how many windows have been created
-
 	int width;
 	int height;
 
 	// Handle to the Window
 	HWND hWnd;
+
+	// Mouse instance
+	Mouse mouse;
 
 	// Stores the state of special Keyboard buttons
 	struct KEYBOARD_DATA_S {
