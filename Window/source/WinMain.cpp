@@ -1,4 +1,5 @@
 #include "Window.h"
+#include <iostream>
 
 int CALLBACK wWinMain(
 	_In_      HINSTANCE  hInstance,
@@ -7,13 +8,12 @@ int CALLBACK wWinMain(
 	_In_      int        nShowCmd
 ) 
 {
-	Window wnd(800, 600, L"Teste");
-	Window wnd2(200, 300, L"Teste2");
-
+	Window wnd(0, 0, 800, 600, L"2D world");
+	
 	MSG msg;
 	BOOL result;
 
-	while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0) {
+	while ((result = GetMessageW(&msg, nullptr, 0, 0)) > 0) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}

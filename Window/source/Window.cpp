@@ -4,13 +4,13 @@
 #include "framework.h"
 #include "Window.h"
 
-// Definition of wndClass singleton
+// Singleton of WindowClass inside Window
 Window::WindowClass Window::WindowClass::wndClass;
+
+
 
 Window::WindowClass::WindowClass() noexcept : hInstance( GetModuleHandle(nullptr))
 {
-
-
     WNDCLASSEXW wcex = { 0 };
 
     wcex.cbSize = sizeof(WNDCLASSEXW);
@@ -45,14 +45,14 @@ LPCWSTR Window::WindowClass::GetName() noexcept {
     return windowClassName;
 }
 
-Window::Window(int width, int height, LPCWSTR windowName) noexcept
+Window::Window(int x, int y, int width, int height, LPCWSTR windowName) noexcept 
+    : 
+    width (width), 
+    height (height)
 {
 
     KEYBOARD_DATA.CTRL_DOWN = false;
     KEYBOARD_DATA.SHIFT_DOWN = false;
-
-    h = height;
-    w = width;
 
     RECT wndRec = { 0 };
     wndRec.left = 100;
@@ -64,7 +64,7 @@ Window::Window(int width, int height, LPCWSTR windowName) noexcept
     AdjustWindowRect(&wndRec, WS_OVERLAPPEDWINDOW | WS_SIZEBOX, false);
     hWnd = CreateWindowExW( 0L,
         WindowClass::GetName(), windowName, WS_OVERLAPPEDWINDOW | WS_SIZEBOX,
-        CW_USEDEFAULT, CW_USEDEFAULT, wndRec.right - wndRec.left, 
+        x, y, wndRec.right - wndRec.left, 
         wndRec.bottom - wndRec.top, nullptr , nullptr,
         WindowClass::GetInstance(), this
     );
@@ -104,14 +104,13 @@ LRESULT Window::HandleProcThunk(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 {   
     // Gets back the pointer to the Window instance and calls HandleMsg
     return reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA))->HandleMsg(hWnd, message, wParam, lParam);
-
-    /*return static_cast<Window*>(
-        reinterpret_cast<CREATESTRUCTW*>(lParam)->
-        lpCreateParams)->
-        HandleMsg(hWnd, message, wParam, lParam);*/
-
   
 }
+
+HWND Window::GetHandle() noexcept {
+    return hWnd;
+}
+
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) noexcept
 {
@@ -146,7 +145,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (KEYBOARD_DATA.CTRL_DOWN) {
                 static bool isFullscreen = false;
                 if (!isFullscreen) {
-                    SetWindowText(hWnd, L"F");
+                    SetWindowText(hWnd, L"T");
                     isFullscreen = true;
                 }
                 else {
