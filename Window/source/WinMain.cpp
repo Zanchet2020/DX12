@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "App.h"
 #include <iostream>
 
 int CALLBACK wWinMain(
@@ -8,18 +8,7 @@ int CALLBACK wWinMain(
 	_In_      int        nShowCmd
 ) 
 {
-	Window wnd(0, 0, 800, 600, L"2D world");
-	
-	MSG msg;
-	BOOL result;
+	int fResult = App{}.Run();
 
-	while ((result = GetMessageW(&msg, nullptr, 0, 0)) > 0) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-		
-	}
-
-	
-
-	return 0;
+	return fResult;
 }

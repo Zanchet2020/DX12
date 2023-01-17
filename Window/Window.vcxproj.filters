@@ -30,6 +30,9 @@
     <ClInclude Include="headers\Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Window.cpp">
@@ -39,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

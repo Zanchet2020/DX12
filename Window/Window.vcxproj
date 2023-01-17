@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="headers\App.h" />
     <ClInclude Include="headers\framework.h" />
     <ClInclude Include="headers\Mouse.h" />
     <ClInclude Include="headers\resource.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="headers\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\Mouse.cpp" />
     <ClCompile Include="source\Window.cpp" />
     <ClCompile Include="source\WinMain.cpp" />
